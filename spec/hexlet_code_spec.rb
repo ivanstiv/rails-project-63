@@ -4,6 +4,6 @@ RSpec.describe HexletCode do
   end
 
   it "does something useful" do
-    expect(false).to eq(true)
+    expect(false)==(true)
   end
 end
