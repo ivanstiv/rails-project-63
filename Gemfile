@@ -1,5 +1,6 @@
 source "https://rubygems.org"
 group :development, :test do
+  gem 'minitest'
   gem 'rubocop', require: false
   gem 'reek', require: false
   gem 'brakeman', require: false # если используете RSpec

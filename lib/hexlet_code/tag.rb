@@ -1,14 +1,16 @@
+module HexletCode
 	class Tag
-		def self.build(name,content=nil,*attributes)
-			attrs = attributes.map { |key, value| "#{key}=\"#{value}\"" }.join(' ')
-      attrs = " #{attrs}" unless attrs.empty?
-      if content.nil? && block_given?
-    content = yield
-  end
-   if content
-    "<#{name}#{attrs}>#{content}</#{name}>"
-  else
-    "<#{name}#{attrs} />"
+		  SINGLE_TAGS = %w[br hr img input].freeze
+
+    def self.build(tag_name, attributes = {}, &block)
+      attrs = attributes.map { |k, v| " #{k}=\"#{v}\"" }.join
+      
+      if SINGLE_TAGS.include?(tag_name)
+        "<#{tag_name}#{attrs}>"
+      else
+        content = block_given? ? yield : ''
+        "<#{tag_name}#{attrs}>#{content}</#{tag_name}>"
+      end
     end
   end
 end
