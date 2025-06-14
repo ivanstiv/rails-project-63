@@ -1,5 +1,8 @@
 source "https://rubygems.org"
 group :development, :test do
+	```ruby
+gem 'input_helper'
+
   gem 'minitest'
   gem 'rubocop', require: false
   gem 'reek', require: false
