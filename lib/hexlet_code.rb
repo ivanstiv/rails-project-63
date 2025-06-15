@@ -29,8 +29,42 @@ module HexletCode
         @form_content += HexletCode::Tag.build('input', options)
       end
     end
+
     module InputHelper
-  def input(prompt = "> ", as: :string)
+       class Form
+    def initialize
+      @fields = {}
+      @submitted = false
+    end
+
+    def inputy(name, label: nil, as: :string, **options)
+      label ||= name.to_s.capitalize
+      prompt = "#{label}: "
+      
+      value = InputHelper.input(prompt, as: as, **options)
+      @fields[name] = value
+    end
+
+     def submit
+      @submitted = true
+      @fields
+    end
+
+    def submitted?
+      @submitted
+    end
+
+    def [](name)
+      @fields[name]
+    end
+  end
+
+   def form
+    Form.new
+  end
+end
+
+  def inputil(prompt = "> ", as: :string)
     print prompt
     user_input = gets.chomp
 
