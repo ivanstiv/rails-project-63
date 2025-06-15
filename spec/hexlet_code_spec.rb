@@ -56,6 +56,35 @@ class TestHexletCodeForm < Minitest::Test
 
     assert_includes form, '<input type="submit" value="Create">'
   end
+    assert_includes form, '<input type="text" name="name" value="John">'
+    assert_includes form, '<input type="text" name="job" value="hexlet">'
+  end
+
+  def test_form_input_attributes
+    form = HexletCode.form_for @user do |f|
+      f.input :name, class: 'input'
+      f.input :job, as: :text
+    end
+
+    assert_includes form, '<input type="text" name="name" value="John" class="input">'
+    assert_includes form, '<textarea name="job">hexlet</textarea>'
+  end
+
+  def test_form_submit
+    form = HexletCode.form_for @user do |f|
+      f.submit
+    end
+
+    assert_includes form, '<input type="submit" value="Save">'
+  end
+
+  def test_form_custom_submit
+    form = HexletCode.form_for @user do |f|
+      f.submit 'Create'
+    end
+
+    assert_includes form, '<input type="submit" value="Create">'
+  end
 
   def test_form_without_block
     form = HexletCode.form_for @user
