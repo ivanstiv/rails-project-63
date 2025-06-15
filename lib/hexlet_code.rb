@@ -29,6 +29,27 @@ module HexletCode
         @form_content += HexletCode::Tag.build('input', options)
       end
     end
+     module InputHelper
+  def input(prompt = "> ", as: :string)
+    print prompt
+    user_input = gets.chomp
+
+    case as
+    when :string
+      user_input
+    when :integer
+      user_input.to_i
+    when :float
+      user_input.to_f
+    when :array
+      user_input.split
+    when :boolean
+      user_input.downcase == "true" || user_input.downcase == "yes"
+    else
+      raise ArgumentError, "Unsupported type: #{as}"
+    end
+  end
+end
 
     def submit(value = 'Save')
       @form_content += HexletCode::Tag.build('input', type: 'submit', value: value)
