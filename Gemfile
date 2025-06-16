@@ -1,7 +1,5 @@
 source "https://rubygems.org"
 group :development, :test do
-	```ruby
-end
 gem 'input_helper'
 
   gem 'minitest'
