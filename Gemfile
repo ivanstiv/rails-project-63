@@ -1,8 +1,8 @@
 source "https://rubygems.org"
 group :development, :test do
 	```ruby
-gem 'input_helper'
 end
+gem 'input_helper'
 
   gem 'minitest'
   gem 'rubocop', require: false
@@ -15,4 +15,3 @@ gemspec
 
 gem "rake", "~> 12.0"
 gem "rspec", "~> 3.0"
-end
