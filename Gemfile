@@ -2,6 +2,7 @@ source "https://rubygems.org"
 group :development, :test do
 	```ruby
 gem 'input_helper'
+end
 
   gem 'minitest'
   gem 'rubocop', require: false
