@@ -49,7 +49,6 @@ module HexletCode
       raise ArgumentError, "Unsupported type: #{as}"
     end
   end
-end
 
     module InputHelper
        class Form
@@ -78,7 +77,6 @@ end
     def [](name)
       @fields[name]
     end
-  end
 
    def form
     Form.new
