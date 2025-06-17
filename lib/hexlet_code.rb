@@ -1,5 +1,6 @@
 require_relative "hexlet_code/version"
 require_relative "hexlet_code/tag"
+
 module HexletCode
   def self.form_for(object, url: '#', **attributes, &block)
     form_attributes = { action: url, method: 'post' }.merge(attributes)
@@ -29,86 +30,61 @@ module HexletCode
         @form_content += HexletCode::Tag.build('input', options)
       end
     end
-     module InputHelper
-  def input(prompt = "> ", as: :string)
-    print prompt
-    user_input = gets.chomp
-
-    case as
-    when :string
-      user_input
-    when :integer
-      user_input.to_i
-    when :float
-      user_input.to_f
-    when :array
-      user_input.split
-    when :boolean
-      user_input.downcase == "true" || user_input.downcase == "yes"
-    else
-      raise ArgumentError, "Unsupported type: #{as}"
-    end
-  end
-
-    module InputHelper
-       class Form
-    def initialize
-      @fields = {}
-      @submitted = false
-    end
-
-    def inputy(name, label: nil, as: :string, **options)
-      label ||= name.to_s.capitalize
-      prompt = "#{label}: "
-      
-      value = InputHelper.input(prompt, as: as, **options)
-      @fields[name] = value
-    end
-
-     def submit
-      @submitted = true
-      @fields
-    end
-
-    def submitted?
-      @submitted
-    end
-
-    def [](name)
-      @fields[name]
-    end
-
-   def form
-    Form.new
-  end
-end
-
-  def inputil(prompt = "> ", as: :string)
-    print prompt
-    user_input = gets.chomp
-
-    case as
-    when :string
-      user_input
-    when :integer
-      user_input.to_i
-    when :float
-      user_input.to_f
-    when :array
-      user_input.split
-    when :boolean
-      user_input.downcase == "true" || user_input.downcase == "yes"
-    else
-      raise ArgumentError, "Unsupported type: #{as}"
-    end
-  end
-end
-
 
     def submit(value = 'Save')
       @form_content += HexletCode::Tag.build('input', type: 'submit', value: value)
     end
   end
-end
-  class Error < StandardError; 
+
+  module InputHelper
+    def self.input(prompt = "> ", as: :string)
+      print prompt
+      user_input = gets.chomp
+
+      case as
+      when :string
+        user_input
+      when :integer
+        user_input.to_i
+      when :float
+        user_input.to_f
+      when :array
+        user_input.split
+      when :boolean
+        user_input.downcase == "true" || user_input.downcase == "yes"
+      else
+        raise ArgumentError, "Unsupported type: #{as}"
+      end
+    end
+
+    class Form
+      def initialize
+        @fields = {}
+        @submitted = false
+      end
+
+      def inputy(name, label: nil, as: :string, **options)
+        label ||= name.to_s.capitalize
+        prompt = "#{label}: "
+        
+        value = InputHelper.input(prompt, as: as, **options)
+        @fields[name] = value
+      end
+
+      def submit
+        @submitted = true
+        @fields
+      end
+
+      def submitted?
+        @submitted
+      end
+
+      def [](name)
+        @fields[name]
+      end
+    end
   end
+
+  class Error < StandardError; end
+end
