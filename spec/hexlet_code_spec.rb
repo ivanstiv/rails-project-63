@@ -6,7 +6,7 @@ class TestHexletCodeForm < Minitest::Test
 
   def setup
     @user = User.new(name: 'John', job: 'hexlet')
-      @form = HexletCode.form_for(user) do |f|
+      @form = HexletCode.form_for(@user) do |f|
       f.input :name
   end
 
