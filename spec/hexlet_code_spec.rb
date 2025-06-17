@@ -92,4 +92,5 @@ class TestHexletCodeForm < Minitest::Test
     form = HexletCode.form_for @user
     assert_equal '<form action="#" method="post"></form>', form
   end
+end
 
