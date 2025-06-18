@@ -8,3 +8,5 @@ form_html = HexletCode.form_for(user) do |f|
   f.input :job, label: "Job", as: :text
   f.submit "Wow"
 end
+
+puts form_html
