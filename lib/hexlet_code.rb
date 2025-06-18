@@ -20,20 +20,14 @@ module HexletCode
     end
 
     def input(name, **options)
-       value = @object.public_send(name).to_s
-       label_text = options.delete(:label) || name.to_s.capitalize
-       input_tag = ''
-
-     if options[:as] == :text
-       options.delete(:as)
-       input_tag = HexletCode::Tag.build('textarea', name: name, **options) { value }
-     else
-      options = { type: 'text', name: name, value: value }.merge(options)
-      input_tag = HexletCode::Tag.build('input', options)
-     end
-     
-  label_tag = options.fetch(:label, true) ? HexletCode::Tag.build('label', for: name) { label_text } : ''
-  @form_content += "#{label_tag}#{input_tag}"
+      value = @object.public_send(name).to_s
+      
+      if options[:as] == :text
+        options.delete(:as)
+        @form_content += HexletCode::Tag.build('textarea', name: name, **options) { value }
+      else
+        options = { type: 'text', name: name, value: value }.merge(options)
+        @form_content += HexletCode::Tag.build('input', options)
       end
     end
 
