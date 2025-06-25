@@ -7,92 +7,59 @@ module HexletCode
   autoload(:Tag, 'hexlet_code/tag')
 
   def self.form_for(object, attributes = {})
-    builded_form = FormBuilder.new(object, **attributes)
-    yield(builded_form) if block_given?
-    FormRenderer.render_html(builded_form)
+    builder = FormBuilder.new(object, **attributes)
+    yield(builder) if block_given?
+    FormRenderer.render_html(builder)
   end
-end
 
-def self.render_html(form_builder)
-  form_attributes = form_builder.form_body[:form_options]
-  HexletCode::Tag.build('form', form_attributes) do
-    form_builder.form_body[:inputs].map { |input| ... }.join
-  end
-end
+  class FormBuilder
+    attr_reader :form_body
 
-  class TagBuilder
-    attr_accessor :form_content
-
-    def initialize(object)
+    def initialize(object, attributes = {})
       @object = object
-      @form_content = ''
+      @form_body = {
+        inputs: [],
+        submit: { options: nil },
+        form_options: {
+          action: attributes.fetch(:url, '#'),
+          method: attributes.fetch(:method, 'post')
+        }.merge(attributes.except(:url, :method))
+      }
     end
 
     def input(name, **options)
-      value = @object.public_send(name).to_s
-      
-      if options[:as] == :text
-        options.delete(:as)
-        @form_content += HexletCode::Tag.build('textarea', name: name, **options) { value }
-      else
-        options = { type: 'text', name: name, value: value }.merge(options)
-        @form_content += HexletCode::Tag.build('input', options)
-      end
+      @form_body[:inputs] << { name: name, options: options }
     end
 
-    def submit(value = 'Save')
-      @form_content += HexletCode::Tag.build('input', type: 'submit', value: value)
+    def submit(value = 'Save', **options)
+      @form_body[:submit] = { options: options.merge(value: value) }
     end
   end
 
-  module InputHelper
-    def self.input(prompt = "> ", as: :string)
-      print prompt
-      user_input = gets.chomp
+  class FormRenderer
+    def self.render_html(builder)
+      form_options = builder.form_body[:form_options]
+      inputs = builder.form_body[:inputs]
+      submit = builder.form_body[:submit]
 
-      case as
-      when :string
-        user_input
-      when :integer
-        user_input.to_i
-      when :float
-        user_input.to_f
-      when :array
-        user_input.split
-      when :boolean
-        user_input.downcase == "true" || user_input.downcase == "yes"
-      else
-        raise ArgumentError, "Unsupported type: #{as}"
-      end
-    end
+      inputs_html = inputs.map do |input|
+        name = input[:name]
+        options = input[:options] || {}
+        value = builder.object.public_send(name) rescue nil
 
-    class Form
-      def initialize
-        @fields = {}
-        @submitted = false
-      end
+        if options[:as] == :text
+          HexletCode::Tag.build('textarea', name: name, **options.except(:as)) { value.to_s }
+        else
+          input_type = options.fetch(:as, 'text')
+          HexletCode::Tag.build('input', type: input_type, name: name, value: value.to_s, **options.except(:as))
+        end
+      end.join
 
-      def inputy(name, label: nil, as: :string, **options)
-        label ||= name.to_s.capitalize
-        prompt = "#{label}: "
-        
-        value = InputHelper.input(prompt, as: as, **options)
-        @fields[name] = value
-      end
+      submit_html = HexletCode::Tag.build('input', type: 'submit', **submit[:options])
 
-      def submit
-        @submitted = true
-        @fields
-      end
-
-      def submitted?
-        @submitted
-      end
-
-      def [](name)
-        @fields[name]
+      HexletCode::Tag.build('form', **form_options) do
+        inputs_html + submit_html
       end
     end
   end
-
-  class Error < StandardError; end
+end
