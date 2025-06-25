@@ -91,4 +91,3 @@ end
   end
 
   class Error < StandardError; end
-end
