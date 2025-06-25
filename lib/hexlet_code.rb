@@ -13,8 +13,6 @@ module HexletCode
   end
 end
 
-    HexletCode::Tag.build('form', form_attributes) { builder.form_content }
-
   class TagBuilder
     attr_accessor :form_content
 
