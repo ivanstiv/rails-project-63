@@ -2,11 +2,16 @@ require_relative "hexlet_code/version"
 require_relative "hexlet_code/tag"
 
 module HexletCode
-  def self.form_for(object, url: '#', **attributes, &block)
-    form_attributes = { action: url, method: 'post' }.merge(attributes)
-    builder = TagBuilder.new(object)
-    form_content = block_given? ? yield(builder) : ''
-    builder.form_content = form_content
+  autoload(:FormBuilder, 'hexlet_code/form_builder')
+  autoload(:FormRenderer, 'hexlet_code/form_renderer')
+  autoload(:Tag, 'hexlet_code/tag')
+  
+  def self.form_for(object, attributes = {})
+    builded_form = FormBuilder.new(object, **attributes)
+    yield(builded_form) if block_given?
+    FormRenderer.render_html(builded_form)
+  end
+end
 
     HexletCode::Tag.build('form', form_attributes) { builder.form_content }
   end

@@ -2,8 +2,6 @@
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/hexlet_code`. To experiment with that code, run `bin/console` for an interactive prompt.
 
-TODO: Delete this and the text above, and describe your gem
-
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -20,9 +18,34 @@ Or install it yourself as:
 
     $ gem install hexlet_code
 
-## Usage
+# HexletCode
 
-TODO: Write usage instructions here
+Генератор HTML-форм для Ruby-приложений. Проект разработан в рамках обучения на [Hexlet](https://hexlet.io).
+
+## Описание
+
+HexletCode - это библиотека для удобного создания HTML-форм в Ruby-приложениях. Она позволяет:
+
+- Создавать формы с различными типами полей (input, textarea, select)
+- Настраивать атрибуты формы и полей ввода
+- Генерировать валидный HTML на основе Ruby-объектов
+
+## Установка
+
+1. Склонируйте репозиторий:
+```bash
+git clone https://github.com/your-username/hexlet_code.git
+cd hexlet_code
+Установите зависимости:
+
+bash
+bundle install
+
+Разработка
+Для запуска тестов:
+
+bash
+bundle exec rake test
 
 ## Development
 
