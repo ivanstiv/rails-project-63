@@ -5,7 +5,7 @@ module HexletCode
   autoload(:FormBuilder, 'hexlet_code/form_builder')
   autoload(:FormRenderer, 'hexlet_code/form_renderer')
   autoload(:Tag, 'hexlet_code/tag')
-  
+
   def self.form_for(object, attributes = {})
     builded_form = FormBuilder.new(object, **attributes)
     yield(builded_form) if block_given?
@@ -14,7 +14,6 @@ module HexletCode
 end
 
     HexletCode::Tag.build('form', form_attributes) { builder.form_content }
-  end
 
   class TagBuilder
     attr_accessor :form_content
