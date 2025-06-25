@@ -13,6 +13,13 @@ module HexletCode
   end
 end
 
+def self.render_html(form_builder)
+  form_attributes = form_builder.form_body[:form_options]
+  HexletCode::Tag.build('form', form_attributes) do
+    form_builder.form_body[:inputs].map { |input| ... }.join
+  end
+end
+
   class TagBuilder
     attr_accessor :form_content
 
